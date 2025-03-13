@@ -1,6 +1,9 @@
 package com.example.customsort.dto;
 
 import org.junit.jupiter.api.Test;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StudentTest {
@@ -68,4 +71,11 @@ public class StudentTest {
 
         assertEquals(expected, student.toString());
     }
+
+    @Test
+    public void equalsVerifier() {
+        EqualsVerifier.simple().forClass(Student.class).verify();
+    }
+
+
 }

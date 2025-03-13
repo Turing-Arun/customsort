@@ -1,6 +1,7 @@
 package com.example.customsort.service;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,68 +9,56 @@ import org.springframework.stereotype.Service;
 import com.example.customsort.dto.Student;
 
 /**
- * Service class for sorting a list of Student objects based on different attributes.
- * This class provides methods to sort students by name, age, height, and CGPA.
+ * Service class for managing and sorting students.
  * 
- * <p>Each sorting method uses Java's Comparator to sort the list in ascending order
- * based on the specified attribute.</p>
+ * <p>This service provides functionality to sort a list of students based on various attributes such as CGPA, name, height, and age.
+ * The sorting is performed using comparators stored in a map, which can be extended to support additional attributes if needed.</p>
  * 
- * <p>Example usage:</p>
- * <pre>
- * {@code
- * List<Student> sortedByName = studentService.sortByName(students);
- * List<Student> sortedByAge = studentService.sortByAge(students);
- * List<Student> sortedByHeight = studentService.sortByHeight(students);
- * List<Student> sortedByCgpa = studentService.sortByCgpa(students);
- * }
- * </pre>
+ * <h2>Usage</h2>
+ * <pre>{@code
+ * List<Student> students = // initialize list of students
+ * StudentService studentService = new StudentService();
+ * List<Student> sortedByCgpa = studentService.sortStudents(students, "cgpa");
+ * List<Student> sortedByName = studentService.sortStudents(students, "name");
+ * }</pre>
  * 
- * <p>This class is annotated with @Service, indicating that it's a Spring service component.</p>
+ * <h2>Role</h2>
+ * <p>The role of this service class is to provide a centralized and reusable way to sort student data based on different attributes.
+ * It encapsulates the sorting logic and ensures that the sorting criteria are easily configurable and extendable.</p>
+ * 
+ * @see com.example.customsort.dto.Student
+ * @see java.util.Comparator
+ * @see java.util.HashMap
  */
+
 @Service
 public class StudentService {
+    /**
+     * A map that holds comparators for sorting students based on different attributes.
+     * The key is the attribute name, and the value is the corresponding comparator.
+     */
+    private static final HashMap<String, Comparator<Student>> comparatorMap = new HashMap<>();
+
+    static {
+        comparatorMap.put("cgpa", Comparator.comparing(Student::getCgpa));
+        comparatorMap.put("name", Comparator.comparing(Student::getName));
+        comparatorMap.put("height", Comparator.comparing(Student::getHeight));
+        comparatorMap.put("age", Comparator.comparing(Student::getAge));
+    }
 
     /**
-     * Sorts a list of students by their names in ascending order.
-     * 
+     * Sorts a list of students based on the specified attribute.
+     *
      * @param students the list of students to be sorted
+     * @param sortBy the attribute to sort the students by
      * @return the sorted list of students
+     * @throws IllegalArgumentException if the specified sortBy attribute is not supported
      */
-    public List<Student> sortByName(List<Student> students) {
-        students.sort(Comparator.comparing(Student::getName));
+    public List<Student> sortStudents(List<Student> students, String sortBy) {
+        Comparator<Student> comparator = comparatorMap.computeIfAbsent(sortBy, key -> {
+            throw new IllegalArgumentException("Unsupported sortBy:" + key);
+        });
+        students.sort(comparator);
         return students;
     }
-
-    /**
-     * Sorts a list of students by their ages in ascending order.
-     * 
-     * @param students the list of students to be sorted
-     * @return the sorted list of students
-     */
-    public List<Student> sortByAge(List<Student> students) {
-        students.sort(Comparator.comparing(Student::getAge));
-        return students;
-    }
-    
-    /**
-     * Sorts a list of students by their heights in ascending order.
-     * 
-     * @param students the list of students to be sorted
-     * @return the sorted list of students
-     */
-    public List<Student> sortByHeight(List<Student> students) {
-        students.sort(Comparator.comparing(Student::getHeight));
-        return students;
-    }
-    
-    /**
-     * Sorts a list of students by their CGPA (Cumulative Grade Point Average) in ascending order.
-     * 
-     * @param students the list of students to be sorted
-     * @return the sorted list of students
-     */
-    public List<Student> sortByCgpa(List<Student> students) {
-        students.sort(Comparator.comparing(Student::getCgpa));
-        return students;
-    }        
 }

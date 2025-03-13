@@ -3,15 +3,12 @@ package com.example.customsort.service;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Arrays;
 import java.util.List;
 import com.example.customsort.dto.Student;
 
-
-@SpringBootTest
 public class StudentServiceTest {
 
     private final StudentService studentService = new StudentService();
@@ -34,7 +31,7 @@ public class StudentServiceTest {
     @Test
     void testSortByAge() {
 
-        List<Student> sortedStudents = studentService.sortByAge(students);
+        List<Student> sortedStudents = studentService.sortStudents(students, "age");
 
         assertEquals(20, sortedStudents.get(0).getAge());
         assertEquals(21, sortedStudents.get(1).getAge());
@@ -44,7 +41,7 @@ public class StudentServiceTest {
     @Test
     void testSortByCgpa() {
 
-        List<Student> sortedStudents = studentService.sortByCgpa(students);
+        List<Student> sortedStudents = studentService.sortStudents(students, "cgpa");
 
         assertEquals(3.2, sortedStudents.get(0).getCgpa());
         assertEquals(3.4, sortedStudents.get(1).getCgpa());
@@ -53,7 +50,7 @@ public class StudentServiceTest {
 
     @Test
     void testSortByHeight() {
-        List<Student> sortedStudents = studentService.sortByHeight(students);
+        List<Student> sortedStudents = studentService.sortStudents(students, "height");
 
         assertEquals(160, sortedStudents.get(0).getHeight());
         assertEquals(165, sortedStudents.get(1).getHeight());
@@ -62,10 +59,15 @@ public class StudentServiceTest {
 
     @Test
     void testSortByName() {
-        List<Student> sortedStudents = studentService.sortByName(students);
+        List<Student> sortedStudents = studentService.sortStudents(students, "name");
 
         assertEquals("Alice", sortedStudents.get(0).getName());
         assertEquals("Bob", sortedStudents.get(1).getName());
         assertEquals("Charlie", sortedStudents.get(2).getName());
+    }
+
+    @Test
+    void testSortByInvalidSortByParam() {
+        assertThrows(IllegalArgumentException.class, () -> studentService.sortStudents(students, "invalid"));
     }
 }
