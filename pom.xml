@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>customsort</artifactId>
+	<artifactId>radixsorting</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>customsort</name>
+	<name>radixsorting</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -38,18 +38,21 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<version>3.4.4</version>
 		</dependency>
 
 		<!-- 2) Spring Boot Starter Validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+			<version>3.4.4</version>
 		</dependency>
 
 		<!-- 3) Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -64,6 +67,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<version>2.15.2</version>
 		</dependency>
 
 		<!-- ====================== TEST DEPENDENCIES ========================= -->
@@ -71,6 +75,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<version>3.4.4</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -84,13 +89,13 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>4.6.1</version>
+			<version>5.5.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>4.6.1</version>
+			<version>5.5.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -98,16 +103,23 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.14</version> <!-- or a compatible version -->
-		</dependency>
-		<!-- 9) equalsverifier -->
-		<dependency>
-    		<groupId>nl.jqno.equalsverifier</groupId>
-    		<artifactId>equalsverifier-nodep</artifactId>
-    		<version>3.19.1</version>
-    		<scope>test</scope>
+			<version>1.6.14</version>
 		</dependency>
 
+		<!-- 9) equalsverifier -->
+		<dependency>
+			<groupId>nl.jqno.equalsverifier</groupId>
+			<artifactId>equalsverifier-nodep</artifactId>
+			<version>3.19.1</version>
+			<scope>test</scope>     
+		</dependency>
+		
+		<!-- 10) Logging -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+			<version>3.4.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -122,7 +134,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -130,7 +141,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.24</version>
+							<version>1.18.30</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -140,7 +151,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version>
 				<configuration>
 					<encoding>UTF-8</encoding> <!-- Ensure correct encoding -->
 				</configuration>
@@ -192,13 +202,13 @@
 								<rule>
 									<element>BUNDLE</element>
 									<!-- Add coverage limits if desired -->
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.90</minimum>
-                                        </limit>
-                                    </limits>
+										<limits>
+												<limit>
+														<counter>LINE</counter>
+														<value>COVEREDRATIO</value>
+														<minimum>0.90</minimum>
+												</limit>
+										</limits>
 								</rule>
 							</rules>
 						</configuration>
@@ -225,6 +235,34 @@
 					<failOnViolation>true</failOnViolation>
 				</configuration>
 			</plugin>	
+
+			<!-- Spotless Maven Plugin -->
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>2.37.0</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>apply</id>
+						<phase>none</phase>
+						<goals>
+							<goal>apply</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<java>
+						<googleJavaFormat/>
+					</java>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
 </project>
