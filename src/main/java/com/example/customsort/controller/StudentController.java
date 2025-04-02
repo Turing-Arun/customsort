@@ -4,10 +4,9 @@ import com.example.customsort.dto.Student;
 import com.example.customsort.service.StudentService;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-
-/** This is a rest contoller for student endpoints */
 
 /**
  * This controller class handles HTTP requests related to student operations. It provides an
@@ -31,8 +30,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/students")
 public class StudentController {
 
+  /** Logger instance for logging */
+  private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+
   /** This is a service class object */
-  @Autowired private StudentService studentService;
+  private final StudentService studentService;
+
+  public StudentController(StudentService studentService) {
+    this.studentService = studentService;
+  }
 
   /**
    * This method sorts the list of students based on the given sort parameter. Supported sort
@@ -50,6 +56,14 @@ public class StudentController {
   public List<Student> sortStudents(
       @Valid @RequestBody List<Student> students, @Valid @RequestParam String sortBy)
       throws IllegalArgumentException {
-    return studentService.sortStudents(students, sortBy);
+    logger.info("Received request to sort students with sortBy parameter: {}", sortBy);
+    try {
+      List<Student> sortedStudents = studentService.sortStudents(students, sortBy);
+      logger.info("Successfully sorted students by {}", sortBy);
+      return sortedStudents;
+    } catch (IllegalArgumentException e) {
+      logger.error("Error occurred while sorting students: {}", e.getMessage());
+      throw e;
+    }
   }
 }

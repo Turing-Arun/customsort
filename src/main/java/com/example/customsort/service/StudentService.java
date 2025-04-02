@@ -4,6 +4,8 @@ import com.example.customsort.dto.Student;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,6 +36,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class StudentService {
+  /*
+   * This is a logger object for logging messages. It uses SLF4J (Simple Logging Facade for Java)
+   */
+  private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
   /**
    * A map that holds comparators for sorting students based on different attributes. The key is the
    * attribute name, and the value is the corresponding comparator.
@@ -56,13 +63,16 @@ public class StudentService {
    * @throws IllegalArgumentException if the specified sortBy attribute is not supported
    */
   public List<Student> sortStudents(List<Student> students, String sortBy) {
+    logger.info("Sorting students by attribute: {}", sortBy);
     Comparator<Student> comparator =
         comparatorMap.computeIfAbsent(
             sortBy,
             key -> {
+              logger.error("Unsupported sortBy attribute: {}", key);
               throw new IllegalArgumentException("Unsupported sortBy:" + key);
             });
     students.sort(comparator);
+    logger.info("Successfully sorted students by attribute: {}", sortBy);
     return students;
   }
 }
