@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +58,6 @@ public class GlobalExceptionHandlerTest {
   }
 
   @Test
-  @DisplayName("Should return 400 BAD_REQUEST with field errors")
   void testHandleValidationException() {
     // Mock binding result with two field errors
     BindingResult bindingResult = mock(BindingResult.class);

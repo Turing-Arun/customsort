@@ -151,7 +151,7 @@ public class StudentControllerTest {
                     "[{\"name\":\"Alice\",\"age\":20,\"cgpa\":3.5,\"height\":160},{\"name\":\"Bob\",\"age\":22,\"cgpa\":3.2,\"height\":170},{\"name\":\"Charlie\",\"age\":21,\"cgpa\":3.4,\"height\":165}]")
                 .param("sortBy", "invalid"))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$").value("Invalid sort parameter"));
+        .andExpect(jsonPath("$.message").value("Invalid sort parameter"));
   }
 
   @Test

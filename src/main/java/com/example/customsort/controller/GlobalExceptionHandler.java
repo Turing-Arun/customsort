@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,12 +21,30 @@ class GlobalExceptionHandler {
   private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   /**
+   * Handles IllegalArgumentException and returns a meaningful error response.
+   *
+   * @param ex the IllegalArgumentException
+   * @return a ResponseEntity with error details
+   */
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<Map<String, String>> handleIllegalArgumentException(
+      IllegalArgumentException ex) {
+    Map<String, String> response = new HashMap<>();
+
+    response.put("error", "Invalid argument");
+    response.put("message", ex.getMessage());
+
+    logger.error("IllegalArgumentException: {}", ex.getMessage());
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
+  /**
    * Handles MethodArgumentNotValidException and returns a detailed error response.
    *
    * @param ex the MethodArgumentNotValidException
    * @return a ResponseEntity with validation error details
    */
-  @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+  @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(
       org.springframework.web.bind.MethodArgumentNotValidException ex) {
     Map<String, String> errors = new HashMap<>();

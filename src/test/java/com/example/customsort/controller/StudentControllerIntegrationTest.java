@@ -130,6 +130,6 @@ public class StudentControllerIntegrationTest {
             "/students/sort?sortBy=invalid", HttpMethod.POST, request, String.class);
 
     assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
-    assertThat(response.getBody()).isEqualTo("Unsupported sortBy:invalid");
+    assertThat(response.getBody()).contains("\"message\":\"Unsupported sortBy:invalid\"");
   }
 }
