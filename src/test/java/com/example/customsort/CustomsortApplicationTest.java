@@ -8,15 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class CustomsortApplicationTest {
 
-	@Test
-	void contextLoads() {
-	}
+  @Test
+  void contextLoads() {}
 
-	//create application instance to call main
-	@Test
-	void testMain() {
-		CustomsortApplication.main(new String[] {});
-		assertTrue(true);
-	}	
-
+  // create application instance to call main
+  @Test
+  void testMain() {
+    CustomsortApplication.main(new String[] {});
+    assertTrue(true);
+  }
 }
