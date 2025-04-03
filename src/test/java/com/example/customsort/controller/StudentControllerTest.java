@@ -47,8 +47,10 @@ public class StudentControllerTest {
             new Student("Bob", 22, 3.2, 170),
             new Student("Charlie", 21, 3.4, 165));
 
+    // Mocking the service to return sorted students by name
     Mockito.when(studentService.sortStudents(students, "name")).thenReturn(sortedStudents);
 
+    // Perform the request and verify the response
     mockMvc
         .perform(
             post("/students/sort")
@@ -72,8 +74,10 @@ public class StudentControllerTest {
             new Student("Charlie", 21, 3.4, 165),
             new Student("Bob", 22, 3.2, 170));
 
+    // Mocking the service to return sorted students by age
     Mockito.when(studentService.sortStudents(students, "age")).thenReturn(sortedStudents);
 
+    // Perform the request and verify the response
     mockMvc
         .perform(
             post("/students/sort")
@@ -97,8 +101,10 @@ public class StudentControllerTest {
             new Student("Charlie", 21, 3.4, 165),
             new Student("Bob", 22, 3.2, 170));
 
+    // Mocking the service to return sorted students by height
     Mockito.when(studentService.sortStudents(students, "height")).thenReturn(sortedStudents);
 
+    // Perform the request and verify the response
     mockMvc
         .perform(
             post("/students/sort")
@@ -121,8 +127,10 @@ public class StudentControllerTest {
             new Student("Charlie", 21, 3.4, 165),
             new Student("Alice", 20, 3.5, 160));
 
+    // Mocking the service to return sorted students by CGPA
     Mockito.when(studentService.sortStudents(students, "cgpa")).thenReturn(sortedStudents);
 
+    // Perform the request and verify the response
     mockMvc
         .perform(
             post("/students/sort")
@@ -140,9 +148,11 @@ public class StudentControllerTest {
   @DisplayName("Test sorting with invalid sortBy parameter")
   @Order(5)
   public void testSortWithInvalidParameter() throws Exception {
+    // Mocking the service to throw an exception when sortBy parameter is invalid
     Mockito.when(studentService.sortStudents(students, "invalid"))
         .thenThrow(new IllegalArgumentException("Invalid sort parameter"));
 
+    // Perform the request with invalid sortBy parameter and verify status as bad request
     mockMvc
         .perform(
             post("/students/sort")
@@ -158,9 +168,11 @@ public class StudentControllerTest {
   @DisplayName("Test sorting with null students list")
   @Order(6)
   public void testSortWithNullStudents() throws Exception {
+    // Mocking the service to throw an exception when students list is null
     Mockito.when(studentService.sortStudents(null, "name"))
         .thenThrow(new IllegalArgumentException("Students list cannot be null"));
 
+    // Perform the request with null students list and verify status as bad request
     mockMvc
         .perform(
             post("/students/sort")

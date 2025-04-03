@@ -54,6 +54,7 @@ class GlobalExceptionHandler {
         .getFieldErrors()
         .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 
+    logger.error("MethodArgumentNotValidException: {}", errors);
     // Return with 400 Bad Request
     return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
   }
@@ -69,10 +70,12 @@ class GlobalExceptionHandler {
       HttpMessageNotReadableException ex) {
     Map<String, String> response = new HashMap<>();
 
+    // Provide a generic error response with exception message
     response.put("error", "Malformed Request body");
     response.put("message", ex.getMessage());
 
     logger.error("HttpMessageNotReadableException: {}", ex.getMessage());
+    // Return with 400 Bad Request
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
@@ -92,8 +95,9 @@ class GlobalExceptionHandler {
     // Provide a generic error response with exception message
     response.put("error", ex.getMessage());
     response.put("message", "An unexpected error occurred");
-    logger.error("Generic Exception: {}", ex.getMessage());
+    logger.error("Generic Exception: {}", ex.getMessage(), ex);
 
+    // Return with 500 Internal Server Error
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

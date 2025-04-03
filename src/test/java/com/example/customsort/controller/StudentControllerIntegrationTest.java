@@ -45,6 +45,7 @@ public class StudentControllerIntegrationTest {
     headers.set("Content-Type", "application/json");
     HttpEntity<List<Student>> request = new HttpEntity<>(students, headers);
 
+    // Send a POST request to the /students/sort endpoint with the sortBy parameter set to name
     ResponseEntity<Student[]> response =
         restTemplate.exchange(
             "/students/sort?sortBy=name", HttpMethod.POST, request, Student[].class);
@@ -52,6 +53,8 @@ public class StudentControllerIntegrationTest {
     assertThat(response.getStatusCode()).isEqualTo(OK);
     Student[] sortedStudents = response.getBody();
     assertThat(sortedStudents).isNotNull();
+
+    // Check if the students are sorted by name in ascending order
     assertThat(sortedStudents[0].getName()).isEqualTo("Alice");
     assertThat(sortedStudents[1].getName()).isEqualTo("Bob");
     assertThat(sortedStudents[2].getName()).isEqualTo("Charlie");
@@ -65,6 +68,7 @@ public class StudentControllerIntegrationTest {
     headers.set("Content-Type", "application/json");
     HttpEntity<List<Student>> request = new HttpEntity<>(students, headers);
 
+    // Send a POST request to the /students/sort endpoint with the sortBy parameter set to age
     ResponseEntity<Student[]> response =
         restTemplate.exchange(
             "/students/sort?sortBy=age", HttpMethod.POST, request, Student[].class);
@@ -72,6 +76,7 @@ public class StudentControllerIntegrationTest {
     assertThat(response.getStatusCode()).isEqualTo(OK);
     Student[] sortedStudents = response.getBody();
     assertThat(sortedStudents).isNotNull();
+    // Check if the students are sorted by age in ascending order
     assertThat(sortedStudents[0].getAge()).isEqualTo(20);
     assertThat(sortedStudents[1].getAge()).isEqualTo(21);
     assertThat(sortedStudents[2].getAge()).isEqualTo(22);
@@ -85,6 +90,7 @@ public class StudentControllerIntegrationTest {
     headers.set("Content-Type", "application/json");
     HttpEntity<List<Student>> request = new HttpEntity<>(students, headers);
 
+    // Send a POST request to the /students/sort endpoint with the sortBy parameter set to height
     ResponseEntity<Student[]> response =
         restTemplate.exchange(
             "/students/sort?sortBy=height", HttpMethod.POST, request, Student[].class);
@@ -92,6 +98,7 @@ public class StudentControllerIntegrationTest {
     assertThat(response.getStatusCode()).isEqualTo(OK);
     Student[] sortedStudents = response.getBody();
     assertThat(sortedStudents).isNotNull();
+    // Check if the students are sorted by height in ascending order
     assertThat(sortedStudents[0].getHeight()).isEqualTo(160);
     assertThat(sortedStudents[1].getHeight()).isEqualTo(165);
     assertThat(sortedStudents[2].getHeight()).isEqualTo(170);
@@ -105,6 +112,7 @@ public class StudentControllerIntegrationTest {
     headers.set("Content-Type", "application/json");
     HttpEntity<List<Student>> request = new HttpEntity<>(students, headers);
 
+    // Send a POST request to the /students/sort endpoint with the sortBy parameter set to cgpa
     ResponseEntity<Student[]> response =
         restTemplate.exchange(
             "/students/sort?sortBy=cgpa", HttpMethod.POST, request, Student[].class);
@@ -112,6 +120,7 @@ public class StudentControllerIntegrationTest {
     assertThat(response.getStatusCode()).isEqualTo(OK);
     Student[] sortedStudents = response.getBody();
     assertThat(sortedStudents).isNotNull();
+    // Check if the students are sorted by CGPA in ascending order
     assertThat(sortedStudents[0].getCgpa()).isEqualTo(3.2);
     assertThat(sortedStudents[1].getCgpa()).isEqualTo(3.4);
     assertThat(sortedStudents[2].getCgpa()).isEqualTo(3.5);
@@ -125,10 +134,13 @@ public class StudentControllerIntegrationTest {
     headers.set("Content-Type", "application/json");
     HttpEntity<List<Student>> request = new HttpEntity<>(students, headers);
 
+    // Send a POST request to the /students/sort endpoint with an invalid sortBy parameter
     ResponseEntity<String> response =
         restTemplate.exchange(
             "/students/sort?sortBy=invalid", HttpMethod.POST, request, String.class);
 
+    // Check if the response status is BAD_REQUEST
+    // and the response body contains the expected error message
     assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
     assertThat(response.getBody()).contains("\"message\":\"Unsupported sortBy:invalid\"");
   }

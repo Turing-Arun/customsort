@@ -29,6 +29,7 @@ public class StudentServiceTest {
     students = null;
   }
 
+  // test sort by age in ascending order
   @Test
   void testSortByAge() {
 
@@ -39,6 +40,7 @@ public class StudentServiceTest {
     assertEquals(22, sortedStudents.get(2).getAge());
   }
 
+  // test sort by cgpa in ascending order
   @Test
   void testSortByCgpa() {
 
@@ -49,6 +51,7 @@ public class StudentServiceTest {
     assertEquals(3.5, sortedStudents.get(2).getCgpa());
   }
 
+  // test sort by height in ascending order
   @Test
   void testSortByHeight() {
     List<Student> sortedStudents = studentService.sortStudents(students, "height");
@@ -58,6 +61,7 @@ public class StudentServiceTest {
     assertEquals(170, sortedStudents.get(2).getHeight());
   }
 
+  // test sort by name in alphabetical order
   @Test
   void testSortByName() {
     List<Student> sortedStudents = studentService.sortStudents(students, "name");
@@ -67,6 +71,7 @@ public class StudentServiceTest {
     assertEquals("Charlie", sortedStudents.get(2).getName());
   }
 
+  // test sort by name in reverse alphabetical order
   @Test
   void testSortByInvalidSortByParam() {
     assertThrows(
