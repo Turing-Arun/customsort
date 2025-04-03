@@ -36,14 +36,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class StudentService {
-  /*
-   * This is a logger object for logging messages. It uses SLF4J (Simple Logging Facade for Java)
+
+  /**
+   * Logger instance for logging messages within the StudentService class. Utilizes SLF4J for
+   * standardized logging.
    */
   private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
   /**
-   * A map that holds comparators for sorting students based on different attributes. The key is the
-   * attribute name, and the value is the corresponding comparator.
+   * A map that holds predefined comparators for sorting {@link Student} objects. The keys in the
+   * map are strings representing the sorting criteria, and the values are {@link Comparator}
+   * instances that define the sorting logic for each criterion.
    */
   private static final HashMap<String, Comparator<Student>> comparatorMap = new HashMap<>();
 
